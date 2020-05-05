@@ -86,13 +86,13 @@ def puanlama(pencere,tas):
 		k_tas = AI_TASI
 	skor=0
 	if pencere.count(tas) == 4:
-		skor+=100
+		skor += 100
 	elif pencere.count(tas) == 3 and pencere.count(BOS) == 1:
-		skor+=5
+		skor += 5
 	elif pencere.count(tas) == 2 and pencere.count(BOS) == 2:
-		skor+=2
+		skor += 2
 	if pencere.count(k_tas) == 3 and pencere.count(BOS) == 1:
-		skor+=-4
+		skor -= 4
 
 	return skor
 

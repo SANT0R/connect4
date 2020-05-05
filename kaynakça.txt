@@ -1,0 +1,8 @@
+-https://www.thesprucecrafts.com/how-to-win-at-connect-four-basic-strategy-tips-412539
+-https://github.com/sahlamba/connect4/blob/master/resources/Pseudo-Code%20--%20Connect%204.txt
+-https://www.youtube.com/watch?v=fInYh90YMJU&list=RDCMUCPme28sMOcWS50CgtTWUZIw&start_radio=1&t=4
+-https://en.wikipedia.org/wiki/Minimax
+-https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-1-introduction/
+-https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
+-https://www.youtube.com/watch?v=Ntu8nNBL28o
+-https://www.youtube.com/watch?v=trKjYdBASyQhttps://www.youtube.com/watch?v=l-hh51ncgDI
