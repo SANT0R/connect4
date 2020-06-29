@@ -268,7 +268,7 @@ while not oyun_sonu:
 
 				if yer_bosmu(tahta, col):
 					row = siradaki_bos_satir(tahta, col)
-					tasi_birak(tahta, row, col, 1)
+					tasi_birak(tahta, row, col, OYUNCU_TASI)
 
 					if kazandinmi(tahta, OYUNCU_TASI):
 						msj = myfont.render("Oyuncu Kazandı!!   ", 1, KIRMIZI)

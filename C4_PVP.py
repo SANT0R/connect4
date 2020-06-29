@@ -133,7 +133,7 @@ while not oyun_sonu:
 
 
 			# Oyuncu 2 Girisi
-			else:				
+			else:
 				posx = event.pos[0]
 				col = int(math.floor(posx/KARE_BOYUT))
 
