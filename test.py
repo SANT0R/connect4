@@ -9,6 +9,7 @@ from pygame.locals import *
 filepath = os.path.abspath(__file__)
 filedir = os.path.dirname(filepath)
 
+
 music_path = os.path.join(filedir, "music/arka_plan_music.mp3")
 
 efekt_path = os.path.join(filedir, "music/Efekt/Efekt")
@@ -21,6 +22,7 @@ SUTUN_SAYISI=7
 SIYAH=(0,0,0)
 MAVI=(0,0,255)
 KIRMIZI=(255,0,0)
+BORDO=(128,0,0)
 SARI=(255,255,0)
 
 OYUNCU1=0
@@ -115,6 +117,10 @@ def tahta_ciz(tahta):
 def tasi_birak(tahta,satir,sutun,tas):
 	tahta[satir][sutun]=tas
 	tahta_ciz(tahta)
+
+
+def gecici_tasi_birak(tahta,satir,sutun,tas):
+	tahta[satir][sutun]=tas
 
 
 def puanlama(pencere,tas):
@@ -224,7 +230,7 @@ def minimax(tahta, derinlik, alpha, beta, maximazingplayer):
 		for col in bos_yerler:
 			row = siradaki_bos_satir(tahta,col)
 			gecici = tahta.copy()
-			tasi_birak(gecici,row,col,AI_TASI)
+			gecici_tasi_birak(gecici,row,col,AI_TASI)
 			yeni_skor = minimax(gecici,derinlik-1, alpha, beta, False)[1]
 			if yeni_skor > deger:
 				deger = yeni_skor
@@ -241,7 +247,7 @@ def minimax(tahta, derinlik, alpha, beta, maximazingplayer):
 		for col in bos_yerler:
 			row = siradaki_bos_satir(tahta,col)
 			gecici = tahta.copy()
-			tasi_birak(gecici,row,col,OYUNCU1_TASI)
+			gecici_tasi_birak(gecici,row,col,OYUNCU1_TASI)
 			yeni_skor = minimax(gecici,derinlik-1, alpha, beta, True)[1]
 			if yeni_skor < deger:
 				deger = yeni_skor
@@ -282,7 +288,7 @@ def menu():
 		
 		metin_yaz("CONNECT4", myfont, MAVI, ekran, 150, 10)
 
-		x , y = pygame.mouse.get_pos()
+		mouse_x , mouse_y = pygame.mouse.get_pos()
 
 		buton1 = pygame.Rect(50,100,200,50)
 		buton2 = pygame.Rect(50,200,200,50)
@@ -295,7 +301,7 @@ def menu():
 		buton9 = pygame.Rect(200,600,50,50)
 
 
-		if buton1.collidepoint(x, y):
+		if buton1.collidepoint(mouse_x, mouse_y):
 			if click:
 				pygame.mixer.music.load(efekt) 
 				pygame.mixer.music.play(0,0.0)
@@ -303,7 +309,7 @@ def menu():
 				pygame.mixer.music.load(music_path) 
 				pygame.mixer.music.play(-1,0.0)
 
-		if buton2.collidepoint(x, y):
+		if buton2.collidepoint(mouse_x, mouse_y):
 			if click:
 				pygame.mixer.music.load(efekt) 
 				pygame.mixer.music.play(0,0.0)
@@ -311,7 +317,7 @@ def menu():
 				pygame.mixer.music.load(music_path) 
 				pygame.mixer.music.play(-1,0.0)
 		
-		if buton3.collidepoint(x, y):
+		if buton3.collidepoint(mouse_x, mouse_y):
 			if click:
 				pygame.mixer.music.load(efekt) 
 				pygame.mixer.music.play(0,0.0)
@@ -319,7 +325,7 @@ def menu():
 				pygame.mixer.music.load(music_path) 
 				pygame.mixer.music.play(-1,0.0)
 
-		if buton4.collidepoint(x, y):
+		if buton4.collidepoint(mouse_x, mouse_y):
 			if click:
 				pygame.mixer.music.load(efekt) 
 				pygame.mixer.music.play(0,0.0)
@@ -327,7 +333,7 @@ def menu():
 				pygame.mixer.music.load(music_path) 
 				pygame.mixer.music.play(-1,0.0)
 
-		if buton5.collidepoint(x, y):
+		if buton5.collidepoint(mouse_x, mouse_y):
 			if click:
 				pygame.mixer.music.load(efekt) 
 				pygame.mixer.music.play(0,0.0)
@@ -335,7 +341,7 @@ def menu():
 				pygame.mixer.music.load(music_path) 
 				pygame.mixer.music.play(-1,0.0)
 
-		if buton6.collidepoint(x, y):
+		if buton6.collidepoint(mouse_x, mouse_y):
 			if click:
 				pygame.mixer.music.load(efekt) 
 				pygame.mixer.music.play(0,0.0)
@@ -343,7 +349,7 @@ def menu():
 				pygame.mixer.music.load(music_path) 
 				pygame.mixer.music.play(-1,0.0)
 
-		if buton7.collidepoint(x, y):
+		if buton7.collidepoint(mouse_x, mouse_y):
 			if click:
 				pygame.mixer.music.load(efekt) 
 				pygame.mixer.music.play(0,0.0)
@@ -351,7 +357,7 @@ def menu():
 				pygame.mixer.music.load(music_path) 
 				pygame.mixer.music.play(-1,0.0)
 
-		if buton8.collidepoint(x, y):
+		if buton8.collidepoint(mouse_x, mouse_y):
 			if click:
 				pygame.mixer.music.load(efekt) 
 				pygame.mixer.music.play(0,0.0)
@@ -359,7 +365,7 @@ def menu():
 				pygame.mixer.music.load(music_path) 
 				pygame.mixer.music.play(-1,0.0)
 
-		if buton9.collidepoint(x, y):
+		if buton9.collidepoint(mouse_x, mouse_y):
 			if click:
 				pygame.mixer.music.load(efekt) 
 				pygame.mixer.music.play(0,0.0)
@@ -367,27 +373,75 @@ def menu():
 				pygame.mixer.music.load(music_path) 
 				pygame.mixer.music.play(-1,0.0)
 		
-		pygame.draw.rect(ekran,KIRMIZI,buton1)
+
+
+
+		if 50 < mouse_x < 50+200 and 100 < mouse_y < 100+50:
+			pygame.draw.rect(ekran,BORDO,buton1)
+		else:
+			pygame.draw.rect(ekran,KIRMIZI,buton1)
+		
 		metin_yaz("PVP",myfont,MAVI,ekran,55,90)
-		pygame.draw.rect(ekran,KIRMIZI,buton2)
+
+		if 50 < mouse_x < 50+200 and 200 < mouse_y < 200+50:
+			pygame.draw.rect(ekran,BORDO,buton2)
+		else:
+			pygame.draw.rect(ekran,KIRMIZI,buton2)
+		
 		metin_yaz("BOT 1",myfont,MAVI,ekran,55,190)
-		pygame.draw.rect(ekran,KIRMIZI,buton3)
+
+		if 50 < mouse_x < 50+200 and 300 < mouse_y < 300+50:
+			pygame.draw.rect(ekran,BORDO,buton3)
+		else:
+			pygame.draw.rect(ekran,KIRMIZI,buton3)
+		
 		metin_yaz("BOT 2",myfont,MAVI,ekran,55,290)
 		
+
 		metin_yaz("Yapay  ", myfont, SARI, ekran, 30, 350)
 		metin_yaz("Zeka ", myfont, SARI, ekran, 30, 420)
 
-		pygame.draw.rect(ekran,KIRMIZI,buton4)
+
+		if 10 < mouse_x < 10+50 and 500 < mouse_y < 500+50:
+			pygame.draw.rect(ekran,BORDO,buton4)
+		else:
+			pygame.draw.rect(ekran,KIRMIZI,buton4)
+		
 		metin_yaz("1",myfont,MAVI,ekran,5,490)
-		pygame.draw.rect(ekran,KIRMIZI,buton5)
+
+		if 100 < mouse_x < 100+50 and 500 < mouse_y < 500+50:
+			pygame.draw.rect(ekran,BORDO,buton5)
+		else:
+			pygame.draw.rect(ekran,KIRMIZI,buton5)
+		
 		metin_yaz("2",myfont,MAVI,ekran,105,490)
-		pygame.draw.rect(ekran,KIRMIZI,buton6)
+
+		if 200 < mouse_x < 200 + 50 and 500 < mouse_y < 500+50:
+			pygame.draw.rect(ekran,BORDO,buton6)
+		else:
+			pygame.draw.rect(ekran,KIRMIZI,buton6)
+		
 		metin_yaz("3",myfont,MAVI,ekran,205,490)
-		pygame.draw.rect(ekran,KIRMIZI,buton7)
+
+		if 10 < mouse_x < 10+50 and 600 < mouse_y < 600+50:
+			pygame.draw.rect(ekran,BORDO,buton7)
+		else:
+			pygame.draw.rect(ekran,KIRMIZI,buton7)
+		
 		metin_yaz("4",myfont,MAVI,ekran,5,590)
-		pygame.draw.rect(ekran,KIRMIZI,buton8)
+
+		if 100 < mouse_x < 100+50 and 600 < mouse_y < 600+50:
+			pygame.draw.rect(ekran,BORDO,buton8)
+		else:
+			pygame.draw.rect(ekran,KIRMIZI,buton8)
+		
 		metin_yaz("5",myfont,MAVI,ekran,105,590)
-		pygame.draw.rect(ekran,KIRMIZI,buton9)
+
+		if 200 < mouse_x < 200+50 and 600 < mouse_y < 600+50:
+			pygame.draw.rect(ekran,BORDO,buton9)
+		else:
+			pygame.draw.rect(ekran,KIRMIZI,buton9)
+		
 		metin_yaz("6",myfont,MAVI,ekran,205,590)
 		
 		click = False
@@ -407,7 +461,7 @@ def oyun(seviye,derinlik=1):
 	
 	tahta = oyun_alanı()
 	tahta_ciz(tahta)
-	tahta_yaz(tahta)
+	#tahta_yaz(tahta)
 
 	oyun_sonu = False
 	tur=random.randint(OYUNCU1,AI)
@@ -501,13 +555,13 @@ def oyun(seviye,derinlik=1):
 				tur %= 2
 
 	
-		if bos_bul(tahta) == []:
+		if bos_bul(tahta) == [] and not oyun_sonu:
 			msj = myfont.render("BERABERE!!", 1, MAVI)
 			ekran.blit(msj, (40,10))
 			oyun_sonu = True
 		
 		
-		tahta_yaz(tahta)
+		#tahta_yaz(tahta)
 		tahta_ciz(tahta)
 		
 
