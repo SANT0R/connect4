@@ -1,3 +1,5 @@
+# Gerekli kütüphaneler
+
 import numpy as np
 import pygame
 import sys
@@ -6,9 +8,11 @@ import os
 import random
 from pygame.locals import *
 
+
+#Muzik ve img dosyalarını dahil etmek için local dosya pathlari
+
 filepath = os.path.abspath(__file__)
 filedir = os.path.dirname(filepath)
-
 
 music_path = os.path.join(filedir, "music/arka_plan_music.mp3")
 
@@ -16,8 +20,13 @@ efekt_path = os.path.join(filedir, "music/Efekt/Efekt")
 
 img_path = os.path.join(filedir, "img/arka_plan_resim.png")
 
+
+#Oyun tahtasinin satir ve sutun değişken atamalari
+
 SATIR_SAYISI=6
 SUTUN_SAYISI=7
+
+#Projede kullanilan RGB renk atamalari
 
 SIYAH=(0,0,0)
 MAVI=(0,0,255)
@@ -25,79 +34,95 @@ KIRMIZI=(255,0,0)
 BORDO=(128,0,0)
 SARI=(255,255,0)
 
+#Oyunda turu belirlemede kullanilacak degiskenler
+
 OYUNCU1=0
 OYUNCU2=1
 AI=1
 
+BOS=0
 OYUNCU1_TASI=1
 OYUNCU2_TASI=2
 AI_TASI=2
 
+#Oyun tahtasinin ve taslarin boyutlarini belirleyen atamalar
+
 PENCERE_BOYU=4
-BOS=0
-
-
 KARE_BOYUT = 100
 YARICAP = int(KARE_BOYUT/2-5)
 genislik = SUTUN_SAYISI*KARE_BOYUT
 yukseklik = (SATIR_SAYISI+1)*KARE_BOYUT
 boyut = (genislik,yukseklik)
 
+#pygame modulunu kullanmak için yapilan ayarlamalar
+
 pygame.init()
 ekran = pygame.display.set_mode(boyut)
 pygame.display.set_caption("CONNECT 4")
 pygame.display.update()
 
+
+#Oyundaki yazilarin fontu
+
 myfont = pygame.font.SysFont("monospace", 60, bold=True, italic=True)
 
 
+#Oyun alaninin olusturulmasi
 
 def oyun_alanı():
-    tahta=np.zeros((SATIR_SAYISI,SUTUN_SAYISI))
-    return tahta
+	tahta=np.zeros((SATIR_SAYISI,SUTUN_SAYISI))
+	return tahta
 
+
+#Oyun alanindaki bos yerlerin kontrolu
 
 def yer_bosmu(tahta,sutun):
-    #secilen sutun bosmu
-    return tahta[5][sutun]==0
+	return tahta[5][sutun]==0
 
+
+#Tasin en alttaki bos satira aktarimi
 
 def siradaki_bos_satir(tahta,sutun):
-    #tası secilen stunun en alt bos satirina ekle
-    for i in range(SATIR_SAYISI):
-        if tahta[i][sutun]==0:
-            return i
+	for i in range(SATIR_SAYISI):
+		if tahta[i][sutun]==0:
+			return i
 
+
+#Oyunu konsolda gorsel olarak yazdirma
 
 def tahta_yaz(tahta):
-    print(np.flip(tahta,0))
+	print(np.flip(tahta,0))
 
+
+#Oyun alani taranarak kazanma koşullarinin olusup olusmadiginin testi
 
 def kazandinmi(tahta, tas):
-	#dikey kazanma koşulları
+	#dikey kazanma koşullari
 	for c in range(SUTUN_SAYISI-3):
 		for r in range(SATIR_SAYISI):
 			if tahta[r][c] == tas and tahta[r][c+1] == tas and tahta[r][c+2] == tas and tahta[r][c+3] == tas:
 				return True
 
-	 #yatay kazanma koşulları
+	 #yatay kazanma koşullari
 	for c in range(SUTUN_SAYISI):
 		for r in range(SATIR_SAYISI-3):
 			if tahta[r][c] == tas and tahta[r+1][c] == tas and tahta[r+2][c] == tas and tahta[r+3][c] == tas:
 				return True
 
-	#capraz kazanma koşulları
+	#capraz kazanma koşullari
 	for c in range(SUTUN_SAYISI-3):
 		for r in range(SATIR_SAYISI-3):
 			if tahta[r][c] == tas and tahta[r+1][c+1] == tas and tahta[r+2][c+2] == tas and tahta[r+3][c+3] == tas:
 				return True
 
-	#capraz kazanma koşulları
+	#capraz kazanma koşullari
 	for c in range(SUTUN_SAYISI-3):
 		for r in range(3, SATIR_SAYISI):
 			if tahta[r][c] == tas and tahta[r-1][c+1] == tas and tahta[r-2][c+2] == tas and tahta[r-3][c+3] == tas:
 				return True
 
+
+#Oyun alanının gorsel olarak açilir pencereye aktarilmasi
 
 def tahta_ciz(tahta):
 	for c in range(SUTUN_SAYISI):
@@ -114,14 +139,20 @@ def tahta_ciz(tahta):
 	pygame.display.update()
 
 
+#Oyuncunun sectigi sutuna tasın yerlestirilmesi
+
 def tasi_birak(tahta,satir,sutun,tas):
 	tahta[satir][sutun]=tas
 	tahta_ciz(tahta)
 
 
+#Yapay zekanin olasi hamleleri hesaplamasi icin geceici tas birakimi
+
 def gecici_tasi_birak(tahta,satir,sutun,tas):
 	tahta[satir][sutun]=tas
 
+
+#Yapay zekanin yapabilecegi hamleler arasinda en iyisini secebilmesi icin puanlama sistemi
 
 def puanlama(pencere,tas):
 	k_tas = OYUNCU1_TASI
@@ -139,6 +170,8 @@ def puanlama(pencere,tas):
 
 	return skor
 
+
+#Yapay zekanin tahtayi ve o anki durumu gozlemleyerek ilerisi icin yapabilecegi en iyi hamleyi hesaplamasi
 
 def gozlem(tahta,tas):
 	skor=0
@@ -179,6 +212,8 @@ def gozlem(tahta,tas):
 	return skor
 
 
+# Yapay zekanin oynaya bilecegi bos yerlerin bulunmasi
+
 def bos_bul(tahta):
 	bos_yerler = []
 	for col in range (SUTUN_SAYISI):
@@ -187,6 +222,8 @@ def bos_bul(tahta):
 
 	return bos_yerler
 
+
+#Yapay zekanin en iyi hamlesini bulmasi icin bos yerleri karsilastirmasi
 
 def en_iyi_hamle(tahta,tas):
 	bos_yerler=bos_bul(tahta)
@@ -204,14 +241,19 @@ def en_iyi_hamle(tahta,tas):
 	return en_iyi_sutun
 
 
+#Oyunun bitip bitmediginin kontrolu
+
 def oyun_sonu_mu(tahta):
 	return kazandinmi(tahta,OYUNCU1_TASI) or kazandinmi(tahta,AI_TASI) or len(bos_bul(tahta)) == 0 
 
+
+#Yapay zekanin tahtayi gozlemleyerek yapacagi hamleye karar vermesi icin min-max algoritmasi
 
 def minimax(tahta, derinlik, alpha, beta, maximazingplayer):
 	bos_yerler = bos_bul(tahta)
 	terminal_dugum = oyun_sonu_mu(tahta)
 	
+	#Yapılacak hamle kalmadıysa
 	if derinlik == 0 or terminal_dugum:
 		if terminal_dugum:
 			if kazandinmi(tahta,AI_TASI):
@@ -224,6 +266,7 @@ def minimax(tahta, derinlik, alpha, beta, maximazingplayer):
 		else: #Derinlik sıfır
 			return (None,gozlem(tahta,AI_TASI))
 	
+	#Rakibin o anki durumu ve maximum yapabilecegi hamlelerin karsılastırılması
 	if maximazingplayer:
 		deger = -math.inf
 		sutun = random.choice(bos_yerler)
@@ -241,6 +284,7 @@ def minimax(tahta, derinlik, alpha, beta, maximazingplayer):
 				break
 
 		return sutun,deger
+
 	else:	#Minimazing
 		deger = math.inf
 		sutun = random.choice(bos_yerler)
@@ -260,36 +304,48 @@ def minimax(tahta, derinlik, alpha, beta, maximazingplayer):
 		return sutun,deger
 
 
+#Arayuze yazi yazdirma fonksiyonu
+
 def metin_yaz(msj,font,renk,ekran,x,y):
 	obj = font.render(msj,1,renk)
 	ekran.blit(obj,(x,y))
 	
 
-
-derinlik = 0
+#Menu arayuzu
 
 click = False
 
 def menu():
 	
+	# Ana muzik yuklemesi
 	pygame.mixer.music.load(music_path) 
 	pygame.mixer.music.play(-1,0.0)
 	
 	while True:
 
-		ekran.fill((255,255,255))
-		
+		#Efekt ve arka plan resim yuklemesi
 		efekt = efekt_path
 		rand = random.randint(1,10)
 		efekt += str(rand)+".wav"
 		arka_plan_resim = pygame.image.load(img_path).convert()
 		ekran.blit(arka_plan_resim, (0, 0))
 
-		
+		#Pygame ile oyuncu hareketlerinin alinmasi
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				sys.exit()
+			
+			if event.type == MOUSEBUTTONDOWN:
+				if event.button == 1:
+					click = True
+
+
 		metin_yaz("CONNECT4", myfont, MAVI, ekran, 150, 10)
 
+		#Mouse un anlik pozisyonu
 		mouse_x , mouse_y = pygame.mouse.get_pos()
 
+		#Butonlarin olusturulmasi
 		buton1 = pygame.Rect(50,100,200,50)
 		buton2 = pygame.Rect(50,200,200,50)
 		buton3 = pygame.Rect(50,300,200,50)
@@ -301,6 +357,7 @@ def menu():
 		buton9 = pygame.Rect(200,600,50,50)
 
 
+		#Buton aksiyonlari ile oyun baslatilmasi
 		if buton1.collidepoint(mouse_x, mouse_y):
 			if click:
 				pygame.mixer.music.load(efekt) 
@@ -375,7 +432,7 @@ def menu():
 		
 
 
-
+		#Hareketli efektleri
 		if 50 < mouse_x < 50+200 and 100 < mouse_y < 100+50:
 			pygame.draw.rect(ekran,BORDO,buton1)
 		else:
@@ -446,31 +503,30 @@ def menu():
 		
 		click = False
 
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				sys.exit()
-			
-			if event.type == MOUSEBUTTONDOWN:
-				if event.button == 1:
-					click = True
-
-		
+		#Ekran update i
 		pygame.display.update()
 
+
+#Oyun arayuzu
+
 def oyun(seviye,derinlik=1):
-	
+	#Oyun tahtasi olusturma
 	tahta = oyun_alanı()
 	tahta_ciz(tahta)
 	#tahta_yaz(tahta)
 
+	#Ilk atamalar
 	oyun_sonu = False
 	tur=random.randint(OYUNCU1,AI)
 
+	#Oyun dongusu
 	while not oyun_sonu:
 
+		#Oyun efektlerinin yuklenmesi
 		efekt1 = efekt_path
 		rand = random.randint(1,10)
 		efekt1 += str(rand)+".wav"
+
 		# Oyuncu 1 Girisi
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -505,8 +561,9 @@ def oyun(seviye,derinlik=1):
 					tur += 1
 					tur %= 2
 					
+				
+				# Oyuncu 2 Girisi
 				elif seviye == 0 and not tur == OYUNCU1 and not oyun_sonu:
-					# Oyuncu 2 Girisi
 
 					posx = event.pos[0]
 					col = int(math.floor(posx/KARE_BOYUT))
@@ -525,19 +582,26 @@ def oyun(seviye,derinlik=1):
 					tur += 1
 					tur %= 2
 
+		# Bot Girisleri
 		if not seviye ==0:
 
-			# AI Girisi
 			if tur == AI and not oyun_sonu:
+				
+				#Bot1 girisi
 				if seviye == 1:
 					pygame.time.wait(2000)
 					col = random.randint(0,SUTUN_SAYISI-1)
+					
+				#Bot2 girisi
 				elif seviye == 2:
 					pygame.time.wait(2000)
 					col = en_iyi_hamle(tahta,AI_TASI)
+				
+				#Yapay zeka girisi
 				elif seviye == 3:
 					col,minimax_skor = minimax(tahta, derinlik, -math.inf , math.inf , True)
 
+				#Bot hamle belirlemesi
 				if yer_bosmu(tahta, col):
 					row = siradaki_bos_satir(tahta, col)
 					tasi_birak(tahta, row, col, AI_TASI)
@@ -554,7 +618,7 @@ def oyun(seviye,derinlik=1):
 				tur += 1
 				tur %= 2
 
-	
+		#Oyun sonu kontrolu
 		if bos_bul(tahta) == [] and not oyun_sonu:
 			msj = myfont.render("BERABERE!!", 1, MAVI)
 			ekran.blit(msj, (40,10))
@@ -569,4 +633,5 @@ def oyun(seviye,derinlik=1):
 			pygame.time.wait(3000)
 
 
+#Menu cagirimi
 menu()

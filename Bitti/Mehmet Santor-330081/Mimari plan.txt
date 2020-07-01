@@ -1,0 +1,12 @@
+1.7X7'lik matristen oluşan bir Oyun tahtası fonksiyonu oluşturup  oyunun oynanacağı tahta nesnesini oluştur.
+2.Tahtayı manipüle etmek için boş_yerler() , taşı_bırak() ,tahta_doldumu() vs. kontrol fonksiyonları oluştur.
+3.Oyunu görselleştirip testleri kolaylaştırmak için terminalde sembollerle göstericek tahtayı_yaz() fonksiyonu oluştur.
+4.2 oyuncudan biri kazanana kadar yada oyun tahtasında olası hamle kalmayana kadar oyunun oynanacağı döngünün iskeletini oluştur.
+5.Her iki oyuncunun manipülasyon fonksiyonları yardımıyla sırayla hamle yapabileceği ve her hamleden sonra tahtanın yazdırılacağı sıralı koşullar örgüsünü döngünün içine yerleştir.
+6.Kolay Aİ botu basit bir random fonksiyonu ile 2. oyuncu yerine işle.
+7.Normal Ai botu için tatayı inceleyip yapabileceği tüm hamleleri karşılaştırıp en iyi hamleyi yapacak bir algoritma yaz.
+8.Zor(minmax) Aİ botu için kendi yaptığın algoritma yerine min max algoritmasını inceleyerek koda entegre et.
+9.Oyunu ve Aİ botları test et.
+10.Oyun ve botlar sorunsuz çalışıyorsa pygame kütüphanesi ile tahtayı yaz fonksiyonu yerine tahtayı çiz fonksiyunu oluşturarak oyunun görsel arayüzü olmasını sağla.
+11.Görselleştirilmiş oyun sorunsuz çalışıyorsa Oyun modlarını birleştirip ses , zroluk düzeyi seçme, skor kaydı gibi özellikler ekleyip kullanıcı dostu tek bir program haline getir.
+12.Programın son halinide test ettikten sonra executable bir dosya haline getir.
